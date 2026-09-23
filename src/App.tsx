@@ -68,7 +68,7 @@ export default function App() {
 		inputRef.current.value = multiplierOptions[ parseInt( element.id ) ].amount.toString()
 	}
 
-	function setError( isError: boolean ) {
+	function setError( _: boolean ) {
 
 	}
 
