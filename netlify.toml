@@ -1,0 +1,17 @@
+[[redirects]]
+  from = "/support"
+  to = "/.netlify/functions/support"
+  status = 200
+
+[[redirects]]
+  from = "/supporters"
+  to = "/.netlify/functions/supporters"
+  status = 200
+
+[dev]
+  command = "npm run dev"
+  targetPort = 5173
+
+[functions]
+  node_bundler = "esbuild"
+  directory = "./functions"
