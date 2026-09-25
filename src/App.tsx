@@ -1,6 +1,8 @@
+import { useParams } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react'
 import rootBeer from "./assets/root_beer_mug.svg"
 import profile from "./assets/profile.png"
+import confetti from "canvas-confetti"
 
 const audioFiles = Object.values( import.meta.glob( "./assets/root-beer/*.ogg", {
 	eager: true
@@ -41,12 +43,16 @@ export default function App() {
 	const [ multiplier, setMultiplier ] = useState( 1 )
 	const name = useRef( "" )
 	const content = useRef( "" )
+	const [ surprise, setSurprise ] = useState( false )
 	const [ roobeer, setRoobeer ] = useState( false )
 	const [ privateMessage, setPrivateMessage ] = useState( false )
 	const [ monthly, setMonthly ] = useState( false )
 	const [ supporters, setSupporters ] = useState<supporterData[]>( [] )
 	const inputRef = useRef<HTMLInputElement>( null! )
 	let roobeerAudio = useRef<HTMLAudioElement>( new Audio() )
+	const canvasRef = useRef<HTMLCanvasElement>( null! )
+
+	const { id } = useParams()
 
 	function onKeyDown( event: React.ChangeEvent ) {
 		const element = event.target as HTMLInputElement
@@ -103,6 +109,23 @@ export default function App() {
 		if ( firstRender.current ) return
 
 		firstRender.current = true
+		
+		if ( id == "success" ) {
+			setSurprise( true )
+
+			const confettiCanvas = confetti.create( canvasRef.current, {
+				resize: true,
+				useWorker: false
+			} )
+			const particle = confetti.shapeFromText( { text: "🍺", scalar: 2 } )
+
+			confettiCanvas( {
+				particleCount: 48,
+				spread: 96,
+				scalar: 3,
+				shapes: [ particle ]
+			} )
+		}
 
 		const fetchData = async () => {
 			try {
@@ -252,6 +275,23 @@ export default function App() {
 					<p>&copy; 2026 Maomao | Made by Pengling</p>
 				</footer>
 			</article>
+			{
+				surprise && <div className='surprise'>
+					<article className='panel'>
+						<section>
+							<h2>🎉 Thank You! 🎉</h2>
+						</section>
+						<section>
+							<button onClick={ () => {
+								setSurprise( false )
+							} }>
+								Close
+							</button>
+						</section>
+					</article>
+				</div>
+			}
+			<canvas ref={ canvasRef }></canvas>
 		</>
 	)
 }
