@@ -8,7 +8,7 @@ const audioFiles = Object.values( import.meta.glob( "./assets/root-beer/*.ogg", 
 	eager: true
 } ) as Record<string, { default: string }> ).map( value => value.default )
 
-const supportersProfile = Object.values( import.meta.glob( "./assets/supporters-profile/*.png", {
+const supportersProfile = Object.values( import.meta.glob( "../public/supporters/*.png", {
 	eager: true
 } ) as Record<string, { default: string }> ).map( value => value.default )
 
