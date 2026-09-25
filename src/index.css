@@ -78,7 +78,7 @@ canvas {
 	background-image: url( "./assets/dogge.png" );
 	background-repeat: no-repeat;
 	background-position: bottom right;
-	transform: translate( 101px, 96px ) rotate( -45deg );
+	transform: translate( 128px, 96px );
 }
 
 .surprise::after {
@@ -90,7 +90,7 @@ canvas {
 	background-image: url( "./assets/dogge.png" );
 	background-repeat: no-repeat;
 	background-position: bottom right;
-	transform: scaleX( -1 ) translate( 96px, 96px ) rotate( -45deg );
+	transform: scaleX( -1 ) translate( 128px, 96px );
 }
 
 footer {
