@@ -83,7 +83,7 @@ export default function App() {
 
 		setTimeout( () => {
 			errorRef.current.className = "error error-slide-down"
-		}, 20 );
+		}, 60 );
 	}
 
 	async function createSession() {
