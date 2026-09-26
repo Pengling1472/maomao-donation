@@ -48,6 +48,36 @@ canvas {
 	z-index: 9999;
 }
 
+.error {
+	position: fixed;
+	pointer-events: none;
+	top: -10rem;
+
+	.panel {
+		padding: 2rem;
+		animation: none;
+		section {
+			animation: none;
+		}
+	}
+}
+
+.error-slide-down {
+	animation: slide-down 5s
+}
+
+@keyframes slide-down {
+	from, to {
+		top: -10rem;
+	}
+	10% {
+		top: 0;
+	}
+	90% {
+		top: 0;
+	}
+}
+
 .surprise {
 	position: fixed;
 	display: flex;

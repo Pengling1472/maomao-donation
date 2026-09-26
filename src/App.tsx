@@ -43,10 +43,12 @@ export default function App() {
 	const [ multiplier, setMultiplier ] = useState( 1 )
 	const name = useRef( "" )
 	const content = useRef( "" )
+	const errorRef = useRef<HTMLDivElement>( null! )
 	const [ surprise, setSurprise ] = useState( false )
 	const [ roobeer, setRoobeer ] = useState( false )
 	const [ privateMessage, setPrivateMessage ] = useState( false )
 	const [ monthly, setMonthly ] = useState( false )
+	const [ errorMessage, setErrorMessage ] = useState( "" )
 	const [ supporters, setSupporters ] = useState<supporterData[]>( [] )
 	const inputRef = useRef<HTMLInputElement>( null! )
 	let roobeerAudio = useRef<HTMLAudioElement>( new Audio() )
@@ -74,11 +76,20 @@ export default function App() {
 		inputRef.current.value = multiplierOptions[ parseInt( element.id ) ].amount.toString()
 	}
 
-	function setError( _: boolean ) {
+	function setError( text: string ) {
+		setErrorMessage( text )
+		
+		errorRef.current.className = "error"
 
+		setTimeout( () => {
+			errorRef.current.className = "error error-slide-down"
+		}, 10 );
 	}
 
 	async function createSession() {
+		if ( name.current.length <= 0 ) return setError( "Missing name" )
+		if ( content.current.length <= 0 ) return setError( "Missing message" )
+
 		try {
 			const data = await fetch( `/support`, {
 				method: 'POST',
@@ -99,7 +110,7 @@ export default function App() {
 
 			window.location.href = ( await data.json() as { url: string } ).url
 		} catch {
-			setError( true )
+			setError( "No connection to the server" )
 		}
 	}
 
@@ -140,7 +151,7 @@ export default function App() {
 
 				setSupporters( ( await data.json() as supporterData[] ).reverse() )
 			} catch {
-				setError( true )
+				setError( "No connection to the server" )
 			}
 		}
 
@@ -275,6 +286,13 @@ export default function App() {
 					<p>&copy; 2026 Maomao | Made by Pengling</p>
 				</footer>
 			</article>
+			<div className='error' ref={ errorRef }>
+				<article className='panel'>
+					<section>
+						<h2>{ errorMessage }</h2>
+					</section>
+				</article>
+			</div>
 			{
 				surprise && <div className='surprise'>
 					<article className='panel'>
